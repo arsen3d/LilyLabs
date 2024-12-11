@@ -230,7 +230,7 @@ export default defineComponent({
   methods: {
     connectWebSocket() {
       const workflowStore = useWorkflowStore();
-      this.socket = new WebSocket('ws://127.0.0.1:8000/ws');
+      this.socket = new WebSocket("wss//:folding-api.lilylabs.arsenum.com/ws")//"ws://127.0.0.1:8000/ws")//'wss//:folding-api.lilylabs.arsenum.com/ws');
       this.socket.onopen = () => {
         console.log('Connected to WebSocket server');
       };

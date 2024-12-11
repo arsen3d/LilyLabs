@@ -123,6 +123,12 @@ export default defineComponent({
     }
   },
   jobsDefinitions: [
+     {
+      name: "LpEsmfold light",
+      tab: true,
+      routeName: "Folding",
+      api: componentApi.LpesmfoldLight
+    },
     {
       name: "Esmfold light",
       tab: true,

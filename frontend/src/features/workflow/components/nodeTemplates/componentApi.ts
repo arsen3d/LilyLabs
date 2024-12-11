@@ -23,6 +23,10 @@ const componentApi = {
     getJob: FoldingService.getJobApiV1FoldingJobsJobIdGet,
     executionStatus: FoldingService.getJobStatusApiV1FoldingJobsJobIdStatusGet
   },
+  LpesmfoldLight: {
+    getJob: FoldingService.getJobApiV1FoldingJobsJobIdGet,
+    executionStatus: FoldingService.getJobStatusApiV1FoldingJobsJobIdStatusGet
+  },
   esmfold: {
     getJob: FoldingService.getJobApiV1FoldingJobsJobIdGet,
     executionStatus: FoldingService.getJobStatusApiV1FoldingJobsJobIdStatusGet

@@ -34,6 +34,7 @@ class Settings(BaseSettings):
     external_query: MicroserviceSettings = MicroserviceSettings()
     esmfold: MicroserviceSettings = MicroserviceSettings()
     esmfold_light: MicroserviceSettings = MicroserviceSettings()
+    lpesmfold_light: MicroserviceSettings = MicroserviceSettings()
     rosettafold: MicroserviceSettings = MicroserviceSettings()
     gene_ontology: MicroserviceSettings = MicroserviceSettings()
     solubility: MicroserviceSettings = MicroserviceSettings()

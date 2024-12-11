@@ -9,6 +9,7 @@ from typing import List, Tuple, Optional
 from uuid import UUID
 
 import esmfold_light_microservice
+import lpesmfold_light_microservice
 import esmfold_microservice
 import rosettafold_microservice
 from mongoengine import Q
@@ -98,14 +99,17 @@ class GetJobStatusFeature:
     """
     _esmfold: esmfold_microservice.DefaultApi
     _esmfold_light: esmfold_light_microservice.DefaultApi
+    _lpesmfold_light: lpesmfold_light_microservice.DefaultApi
     _rosettafold: rosettafold_microservice.DefaultApi
 
     def __init__(self,
                  esmfold: esmfold_microservice.DefaultApi,
                  esmfold_light: esmfold_light_microservice.DefaultApi,
+                 lpesmfold_light: lpesmfold_light_microservice.DefaultApi,
                  rosettafold: rosettafold_microservice.DefaultApi):
         self._esmfold = esmfold
         self._esmfold_light = esmfold_light
+        self._lpesmfold_light = lpesmfold_light
         self._rosettafold = rosettafold
 
     async def handle(self, job_id: UUID) -> GetJobStatusResponse:
@@ -146,17 +150,20 @@ class RunJobFeature:
     """
     _esmfold: esmfold_microservice.DefaultApi
     _esmfold_light: esmfold_microservice.DefaultApi
+    _lpesmfold_light: lpesmfold_light_microservice.DefaultApi
     _rosettafold: rosettafold_microservice.DefaultApi
 
     def __init__(self,
                  esmfold: Optional[esmfold_microservice.DefaultApi] = None,
                  esmfold_light: Optional[esmfold_light_microservice.DefaultApi] = None,
+                 lpesmfold_light: Optional[lpesmfold_light_microservice.DefaultApi] = None,
                  rosettafold: Optional[rosettafold_microservice.DefaultApi] = None):
         if not esmfold and not esmfold_light and not rosettafold:
             raise NoLabsException(ErrorCodes.folding_run_error, 'You must specify at least one folding backend')
 
         self._esmfold = esmfold
         self._esmfold_light = esmfold_light
+        self._lpesmfold_light = lpesmfold_light
         self._rosettafold = rosettafold
 
     async def handle(self, job_id: UUID) -> JobResponse:
@@ -218,7 +225,14 @@ class RunJobFeature:
                     protein_sequence=sequence
                 ), _request_timeout=(1000.0, 1000.0))
             return (response.pdb_content, [])
-
+        
+        if folding_backend == FoldingBackendEnum.lpesmfold_light:
+            response = self._lpesmfold_light.predict_through_api_run_folding_post(
+                run_esm_fold_prediction_request=lpesmfold_light_microservice.RunEsmFoldPredictionRequest(
+                    protein_sequence=sequence
+                ), _request_timeout=(1000.0, 1000.0))
+            return (response.pdb_content, [])
+        
         if folding_backend == FoldingBackendEnum.rosettafold:
             response = self._rosettafold.run_folding_run_folding_post(
                 job_id=job_id.value,

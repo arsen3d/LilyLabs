@@ -13,7 +13,7 @@ from nolabs.application.use_cases.binding_pockets.workflow import BindingPocketP
 from nolabs.application.use_cases.conformations.workflow import ConformationComponent
 from nolabs.application.use_cases.diffdock.workflow import DiffDockComponent
 from nolabs.application.use_cases.folding.workflow import EsmfoldComponent, \
-    EsmfoldLightComponent, RosettafoldComponent
+    EsmfoldLightComponent, RosettafoldComponent, LpEsmfoldLightComponent
 from nolabs.application.use_cases.gene_ontology.workflow import GeneOntologyComponent
 from nolabs.application.use_cases.ligands.workflow import LigandsComponent
 from nolabs.application.use_cases.localisation.workflow import LocalisationComponent
@@ -36,6 +36,7 @@ class WorkflowDependencies:
         return {
             EsmfoldComponent.name: EsmfoldComponent,
             EsmfoldLightComponent.name: EsmfoldLightComponent,
+            LpEsmfoldLightComponent.name: LpEsmfoldLightComponent,
             RosettafoldComponent.name: RosettafoldComponent,
             ProteinsComponent.name: ProteinsComponent,
             SolubilityComponent.name: SolubilityComponent,

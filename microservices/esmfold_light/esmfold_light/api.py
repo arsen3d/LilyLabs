@@ -7,13 +7,19 @@ app = FastAPI()
 from esmfold_light.api_models import RunEsmFoldPredictionRequest, RunEsmFoldPredictionResponse, IsJobRunningResponse
 from esmfold_light.loggers import Log
 from esmfold_light.services import run_facebook_api_folding
-
+import json
 @app.post("/run-folding")
 def predict_through_api(request: RunEsmFoldPredictionRequest) -> RunEsmFoldPredictionResponse:
+    print(request)
+    serialized_request = json.dumps(request.to_dict())
+
+    print("Request received for folding", serialized_request)
+    print("starting job esmfold_light")
     Log.folding_through_api_request(request)
     if request.job_id:
         job_state_manager.start_job(request.job_id)
     result = run_facebook_api_folding(request)
+    print("Response for folding", request.job_id)
     if request.job_id:
         job_state_manager.finish_job(request.job_id)
     Log.folding_through_api_response(result)

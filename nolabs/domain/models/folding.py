@@ -18,6 +18,7 @@ from nolabs.domain.models.common import Job, Protein, JobInputError
 class FoldingBackendEnum(str, Enum):
     esmfold = 'esmfold'
     esmfold_light = 'esmfold_light'
+    lpesmfold_light = 'lpesmfold_light'
     rosettafold = 'rosettafold'
 
 

@@ -13,7 +13,8 @@ COPY ./requirements.txt /app/
 # Install dependencies
 RUN python3.11 -m pip install --upgrade pip
 RUN python3.11 -m pip install --default-timeout=100 -r requirements.txt
-
+RUN python3.11 -m pip install websocket
+RUN python3.11 -m pip install -U langchain-community
 # Now copy the rest of the application files into the container
 COPY ./biobuddy /app/biobuddy
 

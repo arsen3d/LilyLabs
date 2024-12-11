@@ -2,9 +2,13 @@ services:
   mongo:
     image: 'mongo:latest'
     network_mode: host
+    # networks:
+    # - localnet  
   redis:
     image: 'redis:latest'
     network_mode: host
+    # networks:
+    # - localnet
   conformations:
     image: 'ghcr.io/basedlabs/conformations:1.1.0'
     network_mode: host
@@ -40,6 +44,13 @@ services:
       context: microservices/esmfold_light
       dockerfile: build/Dockerfile
     command: --host=0.0.0.0 --port=5733
+  lpesmfold_light:
+    # image: 'ghcr.io/basedlabs/esmfold-light:1.0.0'
+    network_mode: host
+    build:
+      context: microservices/lpesmfold_light
+      dockerfile: build/Dockerfile
+    command: --host=0.0.0.0 --port=5730  
   solubility:
     image: 'ghcr.io/basedlabs/solubility:1.1.0'
     network_mode: host
@@ -132,7 +143,7 @@ services:
       dockerfile: build/Dockerfile
     command: --host=0.0.0.0 --port=5739
   biobuddy:
-    image: 'ghcr.io/basedlabs/biobuddy:1.2.1'
+    image: 'biobuddy:latest'
     network_mode: host
     build:
       context: microservices/biobuddy
@@ -141,17 +152,17 @@ services:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - TAVILY_API_KEY=${TAVILY_API_KEY}
     command: --host=0.0.0.0 --port=5738
-  rosettafold:
-    image: 'ghcr.io/basedlabs/rosettafold:1.0.0'
-    network_mode: host
-    build:
-      context: microservices/rosettafold
-      dockerfile: build/Dockerfile
-    volumes:
-      - /media/jt/Local Disk/RoseTTAFold/bfd:/RoseTTAFold/bfd
-      - /media/jt/Local Disk/RoseTTAFold/pdb100_2021Mar03:/RoseTTAFold/pdb100_2021Mar03
-      - /media/jt/Local Disk/RoseTTAFold/UniRef30_2020_06:/RoseTTAFold/UniRef30_2020_06
-    command: --host=0.0.0.0 --port=5738
+  # rosettafold:
+  #   image: 'ghcr.io/basedlabs/rosettafold:1.0.0'
+  #   network_mode: host
+  #   build:
+  #     context: microservices/rosettafold
+  #     dockerfile: build/Dockerfile
+  #   volumes:
+  #     - /media/jt/Local Disk/RoseTTAFold/bfd:/RoseTTAFold/bfd
+  #     - /media/jt/Local Disk/RoseTTAFold/pdb100_2021Mar03:/RoseTTAFold/pdb100_2021Mar03
+  #     - /media/jt/Local Disk/RoseTTAFold/UniRef30_2020_06:/RoseTTAFold/UniRef30_2020_06
+  #   command: --host=0.0.0.0 --port=5738
   reinvent:
     image: 'ghcr.io/basedlabs/reinvent:1.0.1'
     network_mode: host
@@ -167,11 +178,18 @@ services:
       dockerfile: build/Dockerfile
     command: --host=0.0.0.0 --port=5740 --workers=1
   nolabs:
-    image: 'ghcr.io/basedlabs/nolabs:2.1.7'
+    # image: 'ghcr.io/basedlabs/nolabs:2.1.7'
     network_mode: host
     build:
       context: .
       dockerfile: build/Dockerfile
     environment:
-      - ENABLE_BIOBUDDY=${ENABLE_BIOBUDDY:-false}
+      - ENABLE_BIOBUDDY=${ENABLE_BIOBUDDY:-true}
     command: --host=0.0.0.0
+    volumes:
+      - ./frontend:/app/frontend
+#     networks:
+#       - localnet
+# networks:
+#   localnet:
+#     external: true      

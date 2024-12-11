@@ -4,6 +4,7 @@ import biobuddy_microservice
 import localisation_microservice
 import esmfold_microservice
 import esmfold_light_microservice
+import lpesmfold_light_microservice
 import external_data_query_microservice
 import rosettafold_microservice
 import gene_ontology_microservice
@@ -74,6 +75,15 @@ class InfrastructureDependencies:
         )
         client = esmfold_light_microservice.ApiClient(configuration=configuration)
         return esmfold_light_microservice.DefaultApi(client)
+   
+    @staticmethod
+    def lpesmfold_light_microservice() -> lpesmfold_light_microservice.DefaultApi:
+        settings = Settings.load()
+        configuration = lpesmfold_light_microservice.Configuration(
+            host=settings.lpesmfold_light.microservice
+        )
+        client = lpesmfold_light_microservice.ApiClient(configuration=configuration)
+        return lpesmfold_light_microservice.DefaultApi(client)
 
     @staticmethod
     def rosettafold_microservice() -> rosettafold_microservice.DefaultApi:

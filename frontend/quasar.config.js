@@ -50,6 +50,9 @@ module.exports = configure(function (/* ctx */) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#build
     build: {
+      // publicPath: '/$project/',
+      // forceDevPublicPath: true,
+      // vueRouterMode: 'history',
       target: {
         browser: ["es2019", "edge88", "firefox78", "chrome87", "safari13.1"],
         node: "node16",
@@ -88,7 +91,17 @@ module.exports = configure(function (/* ctx */) {
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
     devServer: {
       // https: true
-      open: true, // opens browser window automatically
+      // publicPath: '/',
+      //  hot: false,
+      //  liveReload: false,
+      //  middlewareMode: true,
+      //  historyApiFallback: true,
+      //  public: 'https://dev.host.to/$project',
+      //  port: 443,
+      hmr:{clientPort:443}, 
+
+      
+      //  open: true, // opens browser window automatically
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework

@@ -22,6 +22,7 @@ msa-light-microservice = {path = "microservices/msa_light/client"}
 p2rank-microservice = {path = "microservices/p2rank/client"}
 jupyter = "^1.0.0"
 esmfold-light-microservice = {path = "microservices/esmfold_light/client"}
+lpesmfold-light-microservice = {path = "microservices/lpesmfold_light/client"}
 esmfold-microservice = {path = "microservices/esmfold/client"}
 diffdock-microservice = {path = "microservices/diffdock/client"}
 aiohttp = "^3.9.3"

@@ -7,7 +7,7 @@ echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.co
  apt-get update && apt-get install -y nodejs;
 
 RUN pip install poetry
-
+# VOLUME ["../frontend"]
 COPY . /app
 WORKDIR /app/frontend
 RUN npm install
@@ -15,7 +15,7 @@ RUN npm install
 ENV PYTHONBUFFERED=1
 ENV COMPOSE=1
 
-RUN poetry install --no-root
+RUN poetry install --no-root 
 WORKDIR /app
 USER root
 RUN chmod +x build/start_server.sh

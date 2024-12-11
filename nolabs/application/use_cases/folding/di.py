@@ -13,12 +13,14 @@ class FoldingDependencies:
     def run_job(
             esmfold: Annotated[DefaultApi, Depends(InfrastructureDependencies.esmfold_microservice)],
             esmfold_light: Annotated[DefaultApi, Depends(InfrastructureDependencies.esmfold_light_microservice)],
+            lpesmfold_light: Annotated[DefaultApi, Depends(InfrastructureDependencies.lpesmfold_light_microservice)],
             rosettafold: Annotated[DefaultApi, Depends(InfrastructureDependencies.esmfold_light_microservice)],
     ) -> RunJobFeature:
         return RunJobFeature(
             esmfold=esmfold,
             esmfold_light=esmfold_light,
-            rosettafold=rosettafold
+            rosettafold=rosettafold,
+            lpesmfold_light=lpesmfold_light
         )
 
     @staticmethod
@@ -30,11 +32,12 @@ class FoldingDependencies:
     @staticmethod
     def get_job_status(esmfold: Annotated[DefaultApi, Depends(InfrastructureDependencies.esmfold_microservice)],
                    esmfold_light: Annotated[DefaultApi, Depends(InfrastructureDependencies.esmfold_light_microservice)],
-                       rosettafold: Annotated[DefaultApi, Depends(
-                           InfrastructureDependencies.esmfold_light_microservice)]) -> GetJobStatusFeature:
+                    lpesmfold_light: Annotated[DefaultApi, Depends(InfrastructureDependencies.lpesmfold_light_microservice)],
+                    rosettafold: Annotated[DefaultApi, Depends(InfrastructureDependencies.esmfold_light_microservice)]) -> GetJobStatusFeature:
         return GetJobStatusFeature(
             esmfold=esmfold,
             esmfold_light=esmfold_light,
+            lpesmfold_light=lpesmfold_light,
             rosettafold=rosettafold
         )
 

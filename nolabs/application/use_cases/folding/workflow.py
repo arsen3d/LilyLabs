@@ -33,6 +33,7 @@ class FoldingComponent(Component[FoldingComponentInput, FoldingComponentOutput])
         run_job_feature = RunJobFeature(
             esmfold=InfrastructureDependencies.esmfold_microservice(),
             esmfold_light=InfrastructureDependencies.esmfold_light_microservice(),
+            lpesmfold_light=InfrastructureDependencies.lpesmfold_light_microservice(),
             rosettafold=InfrastructureDependencies.rosettafold_microservice()
         )
         get_job_feature = GetJobFeature()
@@ -97,11 +98,18 @@ class FoldingComponent(Component[FoldingComponentInput, FoldingComponentOutput])
 
         esmfold_api = InfrastructureDependencies.esmfold_microservice()
         esmfold_light_api = InfrastructureDependencies.esmfold_light_microservice()
+        lpesmfold_light_api = InfrastructureDependencies.lpesmfold_light_microservice()
         rosettafold_api = InfrastructureDependencies.rosettafold_microservice()
 
         for job in self.jobs:
             if self.backend == FoldingBackendEnum.esmfold_light:
                 status = esmfold_light_api.is_job_running_job_job_id_is_running_get(
+                    job_id=job.id
+                )
+                if status.is_running:
+                    return True
+            if self.backend == FoldingBackendEnum.lpesmfold_light:
+                status = lpesmfold_light_api.is_job_running_job_job_id_is_running_get(
                     job_id=job.id
                 )
                 if status.is_running:
@@ -140,6 +148,14 @@ class EsmfoldLightComponent(FoldingComponent):
     @property
     def backend(self) -> FoldingBackendEnum:
         return FoldingBackendEnum.esmfold_light
+
+class LpEsmfoldLightComponent(FoldingComponent):
+    name = 'LpEsmfold light'
+    description = 'Protein folding using Esmfold light'
+
+    @property
+    def backend(self) -> FoldingBackendEnum:
+        return FoldingBackendEnum.lpesmfold_light
 
 
 class RosettafoldComponent(FoldingComponent):

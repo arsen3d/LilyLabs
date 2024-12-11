@@ -19,6 +19,7 @@ class FoldingBackendEnum(str, Enum):
     rosettafold = 'rosettafold'
     esmfold = 'esmfold'
     esmfold_light = 'esmfold_light'
+    lpesmfold_light = 'lpesmfold_light'
 
 
 @dataclass
